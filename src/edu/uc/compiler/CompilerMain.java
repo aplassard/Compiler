@@ -1,12 +1,14 @@
 package edu.uc.compiler;
 
+import edu.uc.compiler.lexicalanalysis.LexicalAnalyzer;
+
 public class CompilerMain {
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println("This is the main method for the compiler class");
+		
 
 	}
 

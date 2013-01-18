@@ -4,6 +4,10 @@ package edu.uc.compiler.lexicalanalysis;
 public class LexicalAnalyzer {
 	private Scanner scanner;
 	private boolean initialized;
+	
+	public LexicalAnalyzer(String filename){
+		initialize(filename);
+	}
 
 	/**
 	 * @return the scanner
