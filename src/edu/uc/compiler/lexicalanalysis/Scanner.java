@@ -3,7 +3,7 @@ package edu.uc.compiler.lexicalanalysis;
 import java.io.*;
 
 public class Scanner {
-	private BufferedReader sourceFile;
+	private PushbackReader sourceFile;
 	private String fileName;
 	private boolean initialized;
 	private int lineNumber;
@@ -18,14 +18,14 @@ public class Scanner {
 	/**
 	 * @return the sourceFile
 	 */
-	public BufferedReader getSourceFile() {
+	public PushbackReader getSourceFile() {
 		return sourceFile;
 	}
 	
 	public void initialize(String filename){
 		this.fileName = filename;
 		try {
-			this.sourceFile = new BufferedReader(new FileReader(filename));
+			this.sourceFile = new PushbackReader(new FileReader(filename));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			this.initialized = false;
@@ -56,5 +56,10 @@ public class Scanner {
 	public void interateLineNumber(){
 		lineNumber++;
 	}
+	
+	public int getNextChar() throws IOException{
+		return this.sourceFile.read();
+	}
+
 
 }

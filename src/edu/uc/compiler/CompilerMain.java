@@ -24,5 +24,8 @@ public class CompilerMain {
 	public static void printOutput(String output){
 		System.out.println("Output: " + output);
 	}
+	public static void printWarning(String warning){
+		System.out.println("Warning: "+warning);
+	}
 
 }
