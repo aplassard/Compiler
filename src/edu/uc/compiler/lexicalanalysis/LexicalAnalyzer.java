@@ -1,7 +1,7 @@
 package edu.uc.compiler.lexicalanalysis;
 
 
-public class LexicalAnalysis {
+public class LexicalAnalyzer {
 	private Scanner scanner;
 	private boolean initialized;
 
