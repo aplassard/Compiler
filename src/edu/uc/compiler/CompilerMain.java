@@ -1,6 +1,7 @@
 package edu.uc.compiler;
 
 import edu.uc.compiler.lexicalanalysis.LexicalAnalyzer;
+import edu.uc.compiler.utils.ParseArgs;
 
 public class CompilerMain {
 
@@ -8,8 +9,20 @@ public class CompilerMain {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
-
+		ParseArgs arguements = new ParseArgs(args);
+		LexicalAnalyzer LA = new LexicalAnalyzer(arguements);
+		if(!LA.isInitialized()){
+			System.out.println("There is an error and the system is not initialized");
+			System.out.println("Exitting now");
+			System.exit(1);
+		}
+	}
+	
+	public static void printError(String error){
+		System.out.println("Error: " + error);
+	}
+	public static void printOutput(String output){
+		System.out.println("Output: " + output);
 	}
 
 }

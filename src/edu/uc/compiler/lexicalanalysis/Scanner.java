@@ -6,6 +6,7 @@ public class Scanner {
 	private BufferedReader sourceFile;
 	private String fileName;
 	private boolean initialized;
+	private int lineNumber;
 	
 	/**
 	 * Default constructor for Scanner
@@ -30,6 +31,7 @@ public class Scanner {
 			this.initialized = false;
 			return;
 		}
+		this.lineNumber = 1;
 		this.initialized = true;
 	}
 
@@ -47,5 +49,12 @@ public class Scanner {
 		return fileName;
 	}
 
+	public int getLineNumber(){
+		return lineNumber;
+	}
+	
+	public void interateLineNumber(){
+		lineNumber++;
+	}
 
 }
