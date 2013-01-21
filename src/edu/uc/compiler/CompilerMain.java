@@ -1,6 +1,8 @@
 package edu.uc.compiler;
 
+import edu.uc.compiler.exception.UnexpectedFileEnd;
 import edu.uc.compiler.lexicalanalysis.LexicalAnalyzer;
+import edu.uc.compiler.lexicalanalysis.Token;
 import edu.uc.compiler.utils.ParseArgs;
 
 public class CompilerMain {
@@ -15,6 +17,14 @@ public class CompilerMain {
 			System.out.println("There is an error and the system is not initialized");
 			System.out.println("Exitting now");
 			System.exit(1);
+		}
+		Token T;
+		while(LA.hasNext()){
+			try {
+				T=LA.getNextToken();
+			} catch (UnexpectedFileEnd e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	

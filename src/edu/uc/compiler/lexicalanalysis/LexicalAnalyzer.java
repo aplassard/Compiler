@@ -1,6 +1,8 @@
 package edu.uc.compiler.lexicalanalysis;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.uc.compiler.utils.ParseArgs;
 import edu.uc.compiler.exception.UnexpectedFileEnd;
@@ -10,6 +12,7 @@ public class LexicalAnalyzer {
 	private boolean initialized;
 	private boolean verbose=false;
 	private boolean EOF=false;
+	private List<Token> tokens;
 	
 	public LexicalAnalyzer(ParseArgs args){
 		initialize(args.fileName,args.verboseLexicalAnalysis);
@@ -25,6 +28,7 @@ public class LexicalAnalyzer {
 	public void initialize(String filename, boolean verbose){
 		this.scanner = new Scanner(filename);
 		this.verbose = verbose;
+		this.tokens = new ArrayList<Token>();
 		if(this.scanner.isInitialized()) initialized = true;
 		else initialized = false;
 	}
