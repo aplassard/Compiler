@@ -53,13 +53,29 @@ public class Scanner {
 		return lineNumber;
 	}
 	
-	public void interateLineNumber(){
+	public void iterateLineNumber(){
 		lineNumber++;
 	}
 	
 	public int getNextChar() throws IOException{
 		return this.sourceFile.read();
 	}
-
-
+	
+	public void readUntilNewLine() throws IOException{
+		char c = (char) getNextChar();
+		while(c!='\n'&&c!='\r'){
+			c = (char) getNextChar();
+		}
+		iterateLineNumber();
+		return;
+	}
+	
+	public void pushBack(char c){
+		try {
+			this.sourceFile.unread((int) c);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

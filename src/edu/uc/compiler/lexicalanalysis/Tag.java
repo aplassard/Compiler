@@ -42,6 +42,7 @@ public enum Tag {
 	R_BRACE("}","R_Brace"),
 	IDENTIFIER("[a-zA-Z][a-zA-Z0-9_]*","identifier"),
 	QSTRING("\"[a-zA-Z0-9 _,;:.']*\"","Quoted_String"),
+	EOF("EOF","End_of_File"),
 	NUMBER("[0-9][0-9]*[.[0-9]*]?","Number");
 	
 	
