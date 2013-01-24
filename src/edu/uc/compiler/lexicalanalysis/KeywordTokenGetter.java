@@ -3,7 +3,7 @@ package edu.uc.compiler.lexicalanalysis;
 import java.io.IOException;
 
 import edu.uc.compiler.exception.BadToken;
-import edu.uc.compiler.exception.InvalidString;
+import edu.uc.compiler.exception.InvalidKeyword;
 
 public class KeywordTokenGetter extends TokenGenerator {
 
@@ -12,12 +12,12 @@ public class KeywordTokenGetter extends TokenGenerator {
 	}
 
 	@Override
-	public Token getToken() throws InvalidString {
+	public Token getToken() throws InvalidKeyword {
 		parseKeyword();
 		return T;
 	}
 	
-	private Token parseKeyword() throws InvalidString{
+	private Token parseKeyword() throws InvalidKeyword{
 		try {
 			char c = (char) this.scanner.getNextChar();
 			while(true){
@@ -25,15 +25,16 @@ public class KeywordTokenGetter extends TokenGenerator {
 					determineTag();
 					return this.T;
 				}
-				else if(c=='('||c=='='){
+				else if(isSomething(c)){
 					this.scanner.pushBack(c);
 					determineTag();
 					return this.T;
 				}
 				else if(!Character.isLetterOrDigit(c)&&c!='_'){
-					BadToken E = new InvalidString("Invalid keyword token found at line: "+this.scanner.getLineNumber());
+					BadToken E = new InvalidKeyword("Invalid keyword token found at line: "+this.scanner.getLineNumber());
 					E.s=word;
-					throw (InvalidString) E;
+					E.b = String.valueOf(c);
+					throw (InvalidKeyword) E;
 				}
 				else{
 					this.word = this.word.concat(String.valueOf(c));

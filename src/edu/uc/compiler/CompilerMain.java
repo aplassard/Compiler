@@ -1,5 +1,6 @@
 package edu.uc.compiler;
 
+import edu.uc.compiler.exception.BadToken;
 import edu.uc.compiler.exception.UnexpectedFileEnd;
 import edu.uc.compiler.lexicalanalysis.LexicalAnalyzer;
 import edu.uc.compiler.lexicalanalysis.Token;
@@ -21,9 +22,14 @@ public class CompilerMain {
 		Token T;
 		while(LA.hasNext()){
 			try {
-				T=LA.getNextToken();
+				try {
+					T = LA.getNextToken();
+				} catch (BadToken e) {
+					printWarning("Couldn't figure this one out.  This is what I had so far: "+e.s+".  This is what I couldn't figure out: "+e.b+".");
+				}
 			} catch (UnexpectedFileEnd e) {
 				e.printStackTrace();
+				break;
 			}
 		}
 	}

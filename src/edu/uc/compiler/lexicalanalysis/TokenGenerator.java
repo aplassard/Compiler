@@ -17,4 +17,8 @@ public abstract class TokenGenerator {
 		this.word = String.valueOf(r);
 		this.T = new Token();
 	}
+	
+	public boolean isSomething(char c){
+		return (c==')'||c=='{'||c=='('||c=='='||c=='}'||c==';'||c=='+'||c=='-'||c=='/'||c=='*'||c=='>'||c=='<'||c==':'||c=='"');
+	}
 }

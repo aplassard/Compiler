@@ -58,4 +58,8 @@ public enum Tag {
 		return this.text;
 	}
 	
+	public boolean accepts(String w){
+		return (accepts.equals(w));
+	}
+	
 }

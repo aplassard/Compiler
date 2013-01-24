@@ -7,11 +7,7 @@ import edu.uc.compiler.CompilerMain;
 
 import edu.uc.compiler.utils.ParseArgs;
 import edu.uc.compiler.exception.BadToken;
-import edu.uc.compiler.exception.InvalidString;
 import edu.uc.compiler.exception.UnexpectedFileEnd;
-import edu.uc.compiler.exception.InvalidNumber;
-
-import edu.uc.compiler.CompilerMain;
 
 public class LexicalAnalyzer {
 	private Scanner scanner;
@@ -64,8 +60,18 @@ public class LexicalAnalyzer {
 			e.printStackTrace();
 			this.EOF=true;
 		}
-		if(Character.isDigit(c)) T = parseNum();
-		else if(Character.isLetter(c)) T = parseLetter();
+		if(Character.isDigit(c)){
+			NumberTokenGetter NG = new NumberTokenGetter(this.scanner,c);
+			T = NG.getToken();
+		}
+		else if(Character.isLetter(c)){
+			KeywordTokenGetter TG = new KeywordTokenGetter(this.scanner,c);
+			T = TG.getToken();
+		}
+		else if(c=='"'){
+			StringTokenGetter SG = new StringTokenGetter(this.scanner,c);
+			T=SG.getToken();
+		}
 		else if((int)c==65535) throw new UnexpectedFileEnd("File end found at line " + scanner.getLineNumber()+".  \"EOF\" not found.");
 		else{
 			T=new Token();
@@ -149,67 +155,6 @@ public class LexicalAnalyzer {
 		return T;
 	}
 
-	private Token parseNum() throws InvalidNumber {
-		Token T = new Token();
-		try {
-			int n = this.scanner.getNextChar();
-			this.word = String.valueOf(c);
-			while(n!=-1){
-				c = (char) n;
-				if(Character.isDigit(c)) word.concat(String.valueOf(c));
-				else if(c=='.'&& !word.contains("."))this.word= this.word.concat(String.valueOf(c));
-				else if(c==')'||c==';'){
-					this.scanner.pushBack(c);
-					break;
-				}
-				else{
-					scanner.readUntilNewLine();
-					BadToken E =  new InvalidNumber("Invalid number token found at line: "+this.scanner.getLineNumber());
-					E.s=word;
-					throw (InvalidNumber) E;
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		T.setText(word);
-		T.setTagType(Tag.NUMBER);
-		this.word="";
-		return T;
-	}
-	
-	private Token parseLetter() throws InvalidString{
-		Token T = new Token();
-		T.setTagType(Tag.IDENTIFIER);
-		try {
-			this.word = "";
-			while(!Character.isWhitespace(c)){
-				this.word=this.word.concat(String.valueOf(c));
-				c = (char) this.scanner.getNextChar();
-				if(!Character.isLetterOrDigit(c)&&c!='_'&&!Character.isWhitespace(c)&&c!='('){
-					BadToken E =  new InvalidString("Invalid string token found at line: "+this.scanner.getLineNumber());
-					E.s=word;
-					throw (InvalidString) E;
-				}
-				else if(c=='('){
-					this.scanner.pushBack(c);
-					break;
-				}
-				
-				
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		T.setText(word);
-		this.tokens.add(T);
-		this.word="";
-		if(c=='\n'){
-			this.scanner.iterateLineNumber();
-		}
-		return T;
-	}
-	
 	public void printToken(Token T){
 		CompilerMain.printOutput("Token "+T.toString()+" at line "+this.scanner.getLineNumber());
 	}
