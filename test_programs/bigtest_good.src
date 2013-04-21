@@ -1,0 +1,61 @@
+//////////////////////////////////////////////////////////////////////////////
+// File:   parser_test.src
+// Author: Evan Sneath
+//////////////////////////////////////////////////////////////////////////////
+
+// This is a test of the parsing component of the compiler.
+
+program test_program is
+
+    integer i;
+    global integer one_int;
+    integer two_int;
+    integer red_int;
+    integer blue_int;
+    integer mult_of_two[1];
+    integer test_array[15];
+
+    string test_string;
+
+    bool isGreaterThan;
+
+    procedure test_proc(integer my_int in)
+        string two_param;
+        integer assigned_int;
+    begin
+        two_param := "Hello, World";
+        assigned_int := my_int;
+
+        return;
+    end procedure;
+
+begin
+
+    test_string := "Hello, World";
+
+    one_int := 1;
+    two_int := 2;
+    red_int := 3 + 4.;
+    mult_of_two := 1;
+
+    test_proc(red_int);
+
+    // Test some expressions
+    blue_int := (((((one_int * two_int[one_int]) + red_int))));
+
+    isGreaterThan := false;
+
+    // Testing 'if' statements
+    if ((blue_int * 2) >= -1) then
+        isGreaterThan := true;
+    end if;
+
+    // Testing 'for' statements
+    for (i := 0; i <= blue_int)
+        i := i + 1.;
+        mult_of_two := i * 2;
+    end for;
+
+    return;
+
+end program
