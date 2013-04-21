@@ -1,4 +1,5 @@
 import os
+from Token import *
 
 class LexicalAnalyzer(object):
     def __init__(self,filename):
@@ -19,26 +20,61 @@ class Scanner(object):
         self.line_num = 0
 
     def get_token(self):
-        self._cur = self.f.get_char
-        if cur == '\n':
+        self._cur = self.f.get_char()
+        if self._cur == '\n':
             self.line_num+=1
         while self._cur in whitespace:
-            self._cur = self.f.get_char
+            self._cur = self.f.get_char()
         if self._cur == '"':
-            pass
+            return self._parse_string()
         elif self._cur in letters:
-            pass
+            return self._parse_keyword()
         elif self._cur in numbers:
-            pass
+            return self._parse_number
+        elif self._cur in symbols:
+            return self._parse_symbol
+        else:
+            raise CharacterNotFound(self._cur)
+
+    class CharacterNotFound(Exception):
+        def __init__(self,char):
+            self.char = char
+
+        def __str__(self):
+            return "Invalid Character Found: "+str(self.char)
 
     def _parse_string(self):
-        pass
+        token_text = ""
+        while self._cur != '"' and self._cur != '\n':
+            token_text += self._cur
+            self._cur = self._f.get_char()
+        if self._cur =='\n':
+            self.line_num+=1
+            raise InvalidTokenException("string",token_text,self.line_num)
+        self._f.push_back()
+        return Token("string",token_text,self.line_num)
 
     def _parse_keyword(self):
-        pass
+        token_text = ""
+        while self._cur in letters or self._cur == "_":
+            token_text += self._cur
+            self._cur = self._f.get_char()
+        self._f.push_back()
+        return Token("keyword",token_text,self.line_num)
 
     def _parse_number(self):
-        pass
+        token_text = ""
+        while self._cur in numbers:
+            token_text += self._cur
+            self._cur = self._f.get_char()
+        if self._cur == '.':
+            token_text += self._cur
+            self._cur = self._f.get_char()
+            while self._cur in numbers:
+                token_text += self._cur
+                self._cur = self._f.get_char()
+        self._f.push_back()
+        return Token("number",token_text,self.line_num
 
     def _parse_symbol(self):
         pass
