@@ -4,7 +4,7 @@ program scope_test is
     integer add2;
     integer sum;
 
-    procedure add(integer add1 in, integer add2 in, integer sum out)
+    procedure add(integer add1 in, integer add2 in, integer sum out) 
     begin
         sum := add1 + add2;
         return;
