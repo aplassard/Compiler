@@ -19,7 +19,7 @@ class Name(Node):
         return o
 
     def get_type(self,env):
-        name_type = env.variables.get(self.identifier.token_content, env.global_variables.get(self.identifier.token_content,False))
+        name_type = env.variables.get(self.identifier.identifier.token_content, env.global_variables.get(self.identifier.identifier.token_content,False))
         if name_type:
             return name_type
         else:

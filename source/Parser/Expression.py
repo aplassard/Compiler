@@ -20,7 +20,7 @@ class Expression(Node):
 
     def get_type(self,env):
         arith_op_type = self.arith_op.get_type(env)
-        if expression:
+        if self.expression:
             expression_type = self.expression.get_type(env)
             if expression_type == arith_op_type:
                 return expression_type

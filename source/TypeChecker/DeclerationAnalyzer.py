@@ -23,12 +23,20 @@ class DeclerationAnalyzer(object):
 
     def test_statement(self,statement):
         if type(statement)==AssignmentStatement:
-            name = statement.destination.identifier.identifier.token_content
-            if self.variables.has_key(name):
-                print self.variables[name]
-            elif self.global_variables.has_key(name):
-                print self.global_variables[name],'global'
-            else: raise TypeCheckException('Variable %s Not Found' % name,statement.destintation.identifier.identifier.line_number)
+            name =statement.destination.identifier.identifier.token_content
+            print name,statement.destination.identifier.identifier.token_content,statement.destination.identifier.identifier.line_number,
+            try:
+                if self.variables.has_key(name):
+                    exp = statement.expression.get_type(self)
+                elif self.global_variables.has_key(name):
+                    exp = statement.expression.get_type(self)
+                else: raise TypeCheckException('Variable %s Not Found' % name,statement.destintation.identifier.identifier.line_number)
+            except TypeCheckException as ex:
+                print
+                print ex.message,'at',ex.line
+                import sys
+                sys.exit(0)
+            print exp
         else:
             print type(statement)
 

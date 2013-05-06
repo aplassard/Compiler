@@ -1,4 +1,5 @@
 from Node import Node
+from TypeChecker.TypeCheckException import TypeCheckException
 
 class Term(Node):
     def __init__(self,factor,op=None,term=None):
@@ -18,12 +19,12 @@ class Term(Node):
 
     def get_type(self,env):
         factor_type = self.factor.get_type(env)
-        if term:
+        if self.term:
             term_type = self.term.get_type(env)
             if term_type == factor_type:
                 return term_type
             else:
-                raise TypeCheckException('Error Type Checking Term',self.op.line_number)
+                raise TypeCheckException('Error Type Checking Term.  Term type was found to be %s and factor type was found to be %s' % (term_type,factor_type,),self.op.line_number)
         return factor_type
 
 
