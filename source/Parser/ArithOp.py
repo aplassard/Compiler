@@ -30,3 +30,8 @@ class ArithOp(Node):
                 raise TypeCheckException('Arithmetic operation did not type check.  Arith_Op Type was found to be %s and Relation Type was found to be %s' % (arith_op_type,relation_type,),self.op.line_number)
         return relation_type
 
+    def get_line_number(self):
+        if self.op:
+            return self.op.line_number
+        else:
+            return self.relation.get_line_number()

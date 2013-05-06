@@ -28,3 +28,8 @@ class Expression(Node):
                 raise TypeCheckException('Error Parsing Expression',self.op.line_num)
         return arith_op_type
 
+    def get_line_number(self):
+        if self.op:
+            return self.op.line_number
+        else:
+            return self.arith_op.get_line_number()

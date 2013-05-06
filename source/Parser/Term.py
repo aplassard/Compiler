@@ -27,4 +27,9 @@ class Term(Node):
                 raise TypeCheckException('Error Type Checking Term.  Term type was found to be %s and factor type was found to be %s' % (term_type,factor_type,),self.op.line_number)
         return factor_type
 
+    def get_line_number(self):
+        if self.op:
+            return self.op.line_number
+        else:
+            return self.factor.get_line_number()
 

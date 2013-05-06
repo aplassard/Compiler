@@ -15,3 +15,9 @@ class ArgumentList(Node):
         o += '}'
         return o
 
+    def __len__(self):
+        if not self.argument_list: return 1
+        else: return 1 + len(self.argument_list)
+
+    def __call__(self,n):
+        return self.expression if n==0 else self.argument_list(n-1)

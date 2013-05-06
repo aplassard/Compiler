@@ -20,7 +20,12 @@ class Name(Node):
 
     def get_type(self,env):
         name_type = env.variables.get(self.identifier.identifier.token_content, env.global_variables.get(self.identifier.identifier.token_content,False))
+        name_type = name_type.type_mark.token_type
         if name_type:
-            return name_type.type_mark.token_type
+            name_type = 'NUMBER' if name_type in ['INTEGER','FLOAT'] else name_type
+            return name_type
         else:
             raise TypeCheckException('Error Variable Not Found',self.identifier.line_num)
+
+    def get_line_number(self):
+        return self.identifier.line_number

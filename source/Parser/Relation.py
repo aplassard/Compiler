@@ -34,5 +34,11 @@ class Relation(Node):
                 raise TypeCheckException('Relation Type Checking Failed',self.op.line_number)
         return term_type
 
+    def get_line_number(self):
+        if self.op:
+            return self.op.line_number
+        else:
+            return self.term.get_line_number()
+
 NUMBER_TYPES = ["NUMBER","INTEGER","FLOAT"]
 RELATIONS = ["LESS_THAN","GREATER_THAN","LESS_THAN_EQUAL","GREATER_THAN_EQUAL","NOT_EQUAL","EQUAL",]

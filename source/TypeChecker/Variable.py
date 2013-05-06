@@ -13,3 +13,6 @@ class Variable(object):
         if self.array_size:
             o += '[%s]' % self.array_size.token_content
         return o
+
+    def get_type(self,env):
+        return self.type_mark.token_content

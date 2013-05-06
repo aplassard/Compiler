@@ -13,3 +13,5 @@ class QString(Node):
     def get_type(self,emv):
         return 'QSTRING'
 
+    def get_line_number(self):
+        return self.qstring.line_number

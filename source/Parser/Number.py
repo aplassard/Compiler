@@ -15,3 +15,6 @@ class Number(Node):
 
     def get_type(self,env):
         return 'NUMBER'
+
+    def get_line_number(self):
+        return self.number.line_number
