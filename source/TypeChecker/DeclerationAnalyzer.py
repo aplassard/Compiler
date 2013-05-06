@@ -24,7 +24,6 @@ class DeclerationAnalyzer(object):
     def test_statement(self,statement):
         if type(statement)==AssignmentStatement:
             name =statement.destination.identifier.identifier.token_content
-            print name,statement.destination.identifier.identifier.token_content,statement.destination.identifier.identifier.line_number,
             try:
                 if self.variables.has_key(name):
                     exp = statement.expression.get_type(self)
@@ -33,10 +32,9 @@ class DeclerationAnalyzer(object):
                 else: raise TypeCheckException('Variable %s Not Found' % name,statement.destintation.identifier.identifier.line_number)
             except TypeCheckException as ex:
                 print
-                print ex.message,'at',ex.line
+                print ex.message,'at line',ex.line
                 import sys
                 sys.exit(0)
-            print exp
         else:
             print type(statement)
 

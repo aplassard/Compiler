@@ -21,6 +21,6 @@ class Name(Node):
     def get_type(self,env):
         name_type = env.variables.get(self.identifier.identifier.token_content, env.global_variables.get(self.identifier.identifier.token_content,False))
         if name_type:
-            return name_type
+            return name_type.type_mark.token_type
         else:
             raise TypeCheckException('Error Variable Not Found',self.identifier.line_num)

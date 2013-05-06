@@ -27,6 +27,6 @@ class ArithOp(Node):
             if arith_op_type == 'NUMBER' and relation_type == 'NUMBER':
                 return 'NUMBER'
             else:
-                raise TypeCheckException('Arithmetic operation did not type check',self.op.line_number)
+                raise TypeCheckException('Arithmetic operation did not type check.  Arith_Op Type was found to be %s and Relation Type was found to be %s' % (arith_op_type,relation_type,),self.op.line_number)
         return relation_type
 

@@ -20,15 +20,19 @@ class Relation(Node):
 
     def get_type(self,env):
         term_type = self.term.get_type(env)
+        if term_type in NUMBER_TYPES:
+            term_type = 'NUMBER'
         if self.op:
             relation_type = self.relation.get_type(env)
             if type( relation_type ) == tuple:
                 relation_type = relation_type[1]
+            if relation_type in NUMBER_TYPES:
+                relation_type = 'NUMBER'
             if relation_type == term_type:
-                return 'BOOLEAN',relation_type
+                return 'BOOLEAN','NUMBER'
             else:
                 raise TypeCheckException('Relation Type Checking Failed',self.op.line_number)
         return term_type
 
-
+NUMBER_TYPES = ["NUMBER","INTEGER","FLOAT"]
 RELATIONS = ["LESS_THAN","GREATER_THAN","LESS_THAN_EQUAL","GREATER_THAN_EQUAL","NOT_EQUAL","EQUAL",]

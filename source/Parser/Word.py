@@ -8,4 +8,6 @@ class Word(Node):
         return 'Word: { %s }' % self.term.token_content
 
     def get_type(self,env):
+        if self.term.token_type in ['TRUE','FALSE']:
+            return 'BOOLEAN'
         return self.term.get_type(env)
