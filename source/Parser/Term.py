@@ -33,3 +33,21 @@ class Term(Node):
         else:
             return self.factor.get_line_number()
 
+    def generate_code(self,env):
+        statements = []
+        if self.term:
+            new_statements,final_register1 = self.term.generate_code(env)
+            statements.extend(new_statements)
+        new_statements, final_register2 = self.factor.generate_code(env)
+        statements.extend(new_statements)
+        if self.op:
+            final_register = final_register1 if final_register1 < final_register2 else final_register2
+            statements.append('R[%s] = R[%s] %s R[%s] ;' % (final_register, final_register1, self.op.token_content,final_register2))
+            env.active_registers.remove(final_register1)
+            env.active_registers.remove(final_register2)
+            env.active_registers.add(final_register)
+        else:
+            final_register = final_register2
+        return statements, final_register
+
+

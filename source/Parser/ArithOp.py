@@ -35,3 +35,22 @@ class ArithOp(Node):
             return self.op.line_number
         else:
             return self.relation.get_line_number()
+
+    def generate_code(self,env):
+        statements = []
+        if self.arith_op:
+            new_statements, final_register1 = self.arith_op.generate_code(env)
+            statements.extend(new_statements)
+        new_statements, final_register2 = self.relation.generate_code(env)
+        statements.extend(new_statements)
+        if self.op:
+            final_register = final_register1 if final_register1 < final_register2 else final_register2
+            statements.append('R[%s] = R[%s] %s R[%s] ;' % (final_register,final_register1,self.op.token_content,final_register2))
+            env.active_registers.remove(final_register1)
+            env.active_registers.remove(final_register2)
+            env.active_registers.add(final_register)
+        else:
+            final_register = final_register2
+        return statements, final_register
+
+

@@ -36,7 +36,7 @@ class DeclerationAnalyzer(object):
                 elif self.global_variables.has_key(name):
                     var = self.global_variables.get(name)
                     exp = statement.expression.get_type(self)
-                else: raise TypeCheckException('Variable %s Not Found' % name,statement.destintation.identifier.identifier.line_number)
+                else: raise TypeCheckException('Variable %s Not Found' % name,statement.destination.identifier.identifier.line_number)
                 if MAPPINGS.get(Mapping(expression=exp,destination=var.type_mark.token_content)):
                     print '--The assignment statement for %s Type Checked Successfully at line %s--' % (name,statement.destination.identifier.identifier.line_number,)
                 else:

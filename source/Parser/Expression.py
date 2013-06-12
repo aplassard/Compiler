@@ -33,3 +33,27 @@ class Expression(Node):
             return self.op.line_number
         else:
             return self.arith_op.get_line_number()
+
+    def generate_code(self,env):
+        statements = []
+        if self.expression:
+            new_statements, final_register1 = self.expression.generate_code(self,env)
+            statements.extend(new_statements)
+            self.env.active_registers.add(final_register)
+        new_statements, final_register2 = self.arith_op.generate_code(env)
+        statements.extend(new_statements)
+        if self.op:
+            then_number = env.get_next_then()
+            statements.append('if(R[%s] = true %s R[%s] = true) goto THEN%s;' % (final_register1,self.op.token_content,final_register2,then_number))
+            final_register = final_register1 if final_register1 < final_register2 else final_register2
+            statements.append('R[%s] = false;'%final_register)
+            statements.append('THEN%s:')
+            statements.append('\tR[%s] = true;'%final_register)
+            env.active_registers.remove(final_register1)
+            env.active_registers.remove(final_register2)
+            env.active_registers.add(final_register)
+        else:
+            final_register = final_register2
+        return statements,final_register
+
+

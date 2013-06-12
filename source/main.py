@@ -3,6 +3,7 @@ from LexicalAnalysis import LexicalAnalyzer
 import sys
 from Parser import Parser
 from TypeChecker import TypeChecker
+from CodeGeneration import CodeGenerator
 
 usage = '''
     python %s <input_file>
@@ -19,6 +20,13 @@ def main(argv):
     P.run()
     TC = TypeChecker(P.ast)
     TC.run()
+    print
+    print '---------------------------------------------------------------------------------------'
+    print '-------------------------      Starting Code Generation       -------------------------'
+    print '---------------------------------------------------------------------------------------'
+    print
+    CG = CodeGenerator(P)
+
 
     return 0
 

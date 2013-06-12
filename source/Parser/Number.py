@@ -18,3 +18,8 @@ class Number(Node):
 
     def get_line_number(self):
         return self.number.line_number
+
+    def generate_code(self,env):
+        final_register = env.get_next_register()
+        statements = ['R[%s] = %s%s' % (final_register, '' if not self.negative else '-',self.number.token_content)]
+        return statements, final_register

@@ -40,5 +40,26 @@ class Relation(Node):
         else:
             return self.term.get_line_number()
 
+    def generate_code(self,env):
+        statements = []
+        if self.relation:
+            new_statements, final_register1 = self.relation.generate_code(env)
+            statements.extend(new_statements)
+        new_statements, final_register2 = self.term.generate_code(env)
+        statements.extend(new_statements)
+        if self.op:
+            final_register = final_register1 if final_register1 < final_register2 else final_register2
+            then_number = env.get_next_then()
+            statements.append('if (R[%s] %s R[%s]) goto THEN%s ;' % (final_register1, self.op.token_content, final_register2, then_number))
+            statements.append('R[%s] = false; ' % final_register)
+            statements.append('THEN%s:' % then_number)
+            statements.append('\tR[%s] = true ;' % final_register)
+            env.active_registers.remove(final_register1)
+            env.active_registers.remove(final_register2)
+            env.active_registers.add(final_register)
+        else:
+            final_register = final_register2
+        return statements,final_register
+
 NUMBER_TYPES = ["NUMBER","INTEGER","FLOAT"]
 RELATIONS = ["LESS_THAN","GREATER_THAN","LESS_THAN_EQUAL","GREATER_THAN_EQUAL","NOT_EQUAL","EQUAL",]
